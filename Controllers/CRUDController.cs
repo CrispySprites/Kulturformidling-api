@@ -11,7 +11,7 @@ namespace Kulturformidling_api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Policy = "Administrator")]
+    [Authorize(Policy = "Kulturaktør")]
     [Produces("application/json")]
     public class CRUDController : ControllerBase
     {

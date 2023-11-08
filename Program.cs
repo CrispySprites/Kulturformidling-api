@@ -45,6 +45,9 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("Administrator", policy =>
         policy.RequireRole("Admin")
     );
+    options.AddPolicy("Kulturaktør", policy =>
+        policy.RequireRole("Kunnstnar", "Admin")
+    );
 });
 
 builder.Services.AddDbContext<DataContext>(options =>
