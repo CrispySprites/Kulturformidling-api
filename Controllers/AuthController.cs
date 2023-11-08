@@ -91,6 +91,8 @@ namespace Kulturformidling_api.Controllers
             var email = User.FindFirstValue(ClaimTypes.Email);
             var role = User.FindFirstValue(ClaimTypes.Role);
 
+            var claims = User.Identity;
+
             var UserClames = new UserClamesDto();
 
             UserClames.UserName = name;
@@ -165,11 +167,11 @@ namespace Kulturformidling_api.Controllers
             return Ok(roleRequest);
         }
 
-        [HttpDelete("DenyRoleRequest")]
+        [HttpDelete("DenyRoleRequest/{id:int}")]
         [Authorize(Policy = "Administrator")]
-        public async Task<ActionResult<RoleRequest>> denyRequestRole(UserRequestDto request)
+        public async Task<ActionResult<RoleRequest>> denyRequestRole(int id)
         {
-            var roleRequest = _context.RolesRequest.FirstOrDefault(r => r.Id == request.RequestId);
+            var roleRequest = _context.RolesRequest.FirstOrDefault(r => r.Id == id);
 
             _context.RolesRequest.Remove(roleRequest);
 

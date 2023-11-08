@@ -43,7 +43,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("Administrator", policy =>
-        policy.RequireClaim("Role", "Admin")
+        policy.RequireRole("Admin")
     );
 });
 

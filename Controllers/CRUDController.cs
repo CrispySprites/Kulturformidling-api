@@ -23,7 +23,7 @@ namespace Kulturformidling_api.Controllers
             _configuration = configuration;
         }
 
-        [HttpGet("ArtByType")]
+        [HttpPost("ArtByType")]
         [AllowAnonymous]
         public async Task<ActionResult<List<ArtDto>>> getArtList(Type request)
         {
@@ -36,6 +36,7 @@ namespace Kulturformidling_api.Controllers
                 var artDto = new ArtDto()
                 {
                     ArtId = art.Id,
+                    ArtistName = art.Artist.Name,
                     ArtistId = art.Artist.Id,
                     ArtName = art.Name,
                     Author = art.Author,
@@ -52,7 +53,7 @@ namespace Kulturformidling_api.Controllers
         }
 
         [HttpPost("Art")]
-        public async Task<ActionResult<Art>> addArt(ArtDto request)
+        public async Task<ActionResult<ArtDto>> addArt(ArtDto request)
         {
             var art = new Art();
 
@@ -71,11 +72,11 @@ namespace Kulturformidling_api.Controllers
             _context.Art.Add(art);
             _context.SaveChanges();
 
-            return Ok(art);
+            return Ok(request);
         }
 
         [HttpPut("Art")]
-        public async Task<ActionResult<Art>> editArt(ArtDto request)
+        public async Task<ActionResult<ArtDto>> editArt(ArtDto request)
         {
             var art = _context.Art.FirstOrDefault(a => a.Id == request.ArtId);
 
@@ -92,19 +93,19 @@ namespace Kulturformidling_api.Controllers
 
             _context.SaveChanges();
 
-            return Ok(art);
+            return Ok(request);
         }
 
-        [HttpDelete("Art")]
-        public async Task<ActionResult<Art>> deleteArt(ArtDto request)
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult<int>> deleteArt(int id)
         {
-            var art = _context.Art.FirstOrDefault(a => a.Id == request.ArtId);
+            var art = _context.Art.FirstOrDefault(a => a.Id == id);
 
             _context.Art.Remove(art);
 
             _context.SaveChanges();
 
-            return Ok(art);
+            return Ok(id);
         }
 
         [HttpGet("Types")]
@@ -126,6 +127,28 @@ namespace Kulturformidling_api.Controllers
             _context.SaveChanges();
 
             return Ok(type);
+        }
+
+        [HttpGet("Artists")]
+        [AllowAnonymous]
+        public async Task<ActionResult<List<UserNameDto>>> getArtists()
+        {
+            var rolesRequest = _context.RolesRequest.Where(r => r.Role.Name == "Kunnstnar").ToList();
+
+            var artists = new List<UserNameDto>();
+
+            foreach (var role in rolesRequest)
+            {
+                var artist = new UserNameDto()
+                {
+                    userId = role.User.Id,
+                    userName = role.User.Name,
+                };
+                artists.Add(artist);
+            }
+
+
+            return Ok(artists);
         }
 
     }

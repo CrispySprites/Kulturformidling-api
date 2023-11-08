@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kulturformidling_api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231106165645_initial")]
-    partial class initial
+    [Migration("20231108095057_azureInitial")]
+    partial class azureInitial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -94,7 +94,7 @@ namespace Kulturformidling_api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("DateAccepted")
+                    b.Property<DateTime?>("DateAccepted")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("RoleId")

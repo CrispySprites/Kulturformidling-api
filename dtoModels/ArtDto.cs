@@ -4,6 +4,7 @@
     {
         public int ArtId { get; set; }
         public string ArtName { get; set; }
+        public string ArtistName { get; set; }
         public int ArtistId { get; set; }
         public string Description { get; set; }
         public int TypeId { get; set; }
